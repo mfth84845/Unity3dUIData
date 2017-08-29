@@ -6,10 +6,10 @@ using UnityEngine.Events;
 using System.Reflection;
 using Object = UnityEngine.Object;
 using System.Linq;
+using UISystem;
 
 #if UNITY_EDITOR
 using UnityEditor;
-using UISystem;
 #endif
 
 [RequireComponent(typeof(Text))]
