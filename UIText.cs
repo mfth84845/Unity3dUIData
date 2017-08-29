@@ -19,7 +19,8 @@ public class UIText : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        TextValueInt.AddLinster(() => { GetComponent<Text>().text = TextValueInt.Value.ToString(); });
+        //TextValueInt.AddLinster(() => { GetComponent<Text>().text = TextValueInt.Value.ToString(); });
+        TextValueInt.AddLinster(() => { GetComponent<Text>().text = TextValueFloat.Value.ToString(); });
 
     }
 
@@ -31,11 +32,14 @@ public class UIText : MonoBehaviour
         {
             Test = false;
             UIDataContext.Instance.LocalRoleHp.LogicSetValue(Random.Range(0, 20));
+            UIDataContext.Instance.Exp.LogicSetValue(Random.Range(20.1f, 100));
         }
     }
 
-    [Header("测试值")]
+    [Header("测试值I")]
     public UIValueInt TextValueInt;
+    [Header("测试值F")]
+    public UIValueFloat TextValueFloat;
 
 
 

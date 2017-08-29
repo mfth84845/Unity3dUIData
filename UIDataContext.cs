@@ -45,6 +45,10 @@ public class UIDataContext
 
     public IntValue LocalRoleHpMax = new IntValue();
 
+
+    public FloatValue Exp = new FloatValue();
+
+
     void das()
     {
 

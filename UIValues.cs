@@ -9,7 +9,7 @@ namespace UISystem
 
     public class UIValueBaseBase { }
 
-    public abstract class UIValueBase<T, U> :UIValueBaseBase where T : UIDataValueBase<U>
+    public abstract class UIValueBase<T, U> : UIValueBaseBase where T : UIDataValueBase<U>
     {
         /// <summary>
         /// UseToMessage if Selected Value being changed,just work for FixedMode
@@ -20,52 +20,12 @@ namespace UISystem
             InitLink();
             OnValueChange += func;
         }
-
-        protected abstract void InitLink();
-
-        protected System.Action OnValueChange;
-
-        //fixedMode p
-
-        //fixedMode p
-        [SerializeField]
-        UIDataValueBase<U> ValueTarget_ = null;
-        protected UIDataValueBase<U> ValueTarget
+        public void RemoveLinster(System.Action func)
         {
-            get
-            {
-                if (string.IsNullOrEmpty(ValueTargetName) == false && ValueTarget_ == null)
-                {
-                   
-                    ValueTarget_ = (T)typeof(UIDataContext).GetField(ValueTargetName).GetValue(UIDataContext.Instance);
-                }
-                return ValueTarget_;
-
-
-            }
+            OnValueChange -= func;
         }
 
-     
-
-        [SerializeField]
-        protected string ValueTargetName = null;
-
-          
-        //else p
-        [SerializeField]
-       protected  object ValueTargrt;
-        [SerializeField]
-        protected FieldInfo IntFieldTarget;
-
-
-    }
-
-    [System.Serializable]
-    public class UIValueInt : UIValueBase<IntValue,int>
-    {
-
-
-        protected override void InitLink()
+        protected void InitLink()
         {
             if (FixedMode)
                 ValueTarget.OnValueChange += () =>
@@ -74,26 +34,70 @@ namespace UISystem
                         this.OnValueChange();
                 };
         }
+        protected System.Action OnValueChange;
 
-        //Run Time Only
-        public int Value
-        {
-            get
-            {
-                if (FixedMode)
-                    return ValueTarget != null ? ValueTarget.Value : 0;
-                else
-                    return (int)IntFieldTarget.GetValue(ValueTargrt);
-            }
-        }
         [SerializeField]
-        bool FixedMode = true;
+        protected bool FixedMode = true;
 
         //gameObject U Set
         [SerializeField]
         Object target;
 
-      
+
+        //fixedMode p
+
+        //Run Time Only
+        public U Value
+        {
+            get
+            {
+                if (FixedMode)
+                    return ValueTarget != null ? ValueTarget.Value : default(U);
+                else
+                    return (U)IntFieldTarget.GetValue(ValueTargrt);
+            }
+        }
+
+        [SerializeField]
+        UIDataValueBase<U> ValueTarget_ = null;
+        protected UIDataValueBase<U> ValueTarget
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ValueTargetName) == false && ValueTarget_ == null)
+                {
+
+                    ValueTarget_ = (T)typeof(UIDataContext).GetField(ValueTargetName).GetValue(UIDataContext.Instance);
+                }
+                return ValueTarget_;
+
+
+            }
+        }
+
+
+
+        [SerializeField]
+        protected string ValueTargetName = null;
+
+
+        //else p
+        [SerializeField]
+        protected object ValueTargrt;
+        [SerializeField]
+        protected FieldInfo IntFieldTarget;
+
+
+    }
+
+    [System.Serializable]
+    public class UIValueInt : UIValueBase<IntValue, int>
+    {
+
+    }
+    [System.Serializable]
+    public class UIValueFloat : UIValueBase<FloatValue, float>
+    {
 
     }
 
