@@ -38,7 +38,16 @@ namespace UISystem
 
 public class UIDataContext
 {
-    public static UIDataContext Instance = new UIDataContext();
+    private UIDataContext() { }
+    private static UIDataContext instance = new UIDataContext();
+    public static UIDataContext Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
 
 
     public IntValue LocalRoleHp = new IntValue();
